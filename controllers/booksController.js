@@ -13,8 +13,23 @@ exports.getBookById = (req, res) => {
 };
 
 exports.getBooksByAuthor = (req, res) => {    
-    const author = BookService.getBooksByAuthor(req.query.author);
-//    console.log(author);
-  
-    res.render("author", { author });
-  };
+    const author = BookService.getBooksByAuthor(req.query.author,
+      (author)=>res.render("author", { author })
+    );
+};
+
+exports.getBookByTitle = (req, res)=>{
+  BookService.getBookByTitle(req.query.title).then(title => {
+    // console.log(title);
+    
+    res.render("title", { title });
+    // console.log(title);
+  });
+}
+
+exports.getBookByKeywords = async (req, res)=>{
+  BookService.getBookByKeywords(req.query.keywordArr.split(',')).then(books => {
+    res.render("title", { title:books });
+
+  });
+}
